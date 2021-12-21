@@ -1,18 +1,18 @@
 #!/usr/bin/env sh
 
-if [ -r "$AWS_REGION_OVERRIDE" ]
+if [ -z "$AWS_REGION_OVERRIDE" ]
 then
     echo "AWS_REGION_OVERRIDE" must be set
     exit 1
 fi
-[ -s "$SMTPUSERNAME" ] || exit 1
+if [ -z "$SMTPUSERNAME" ]
 then
-    echo "AWS_REGION_OVERRIDE" must be set
+    echo "SMTPUSERNAME" must be set
     exit 1
 fi
-[ -s "$SMTPPASSWORD" ] || exit 1
+if [ -z "$SMTPPASSWORD" ]
 then
-    echo "AWS_REGION_OVERRIDE" must be set
+    echo "SMTPPASSWORD" must be set
     exit 1
 fi
 
