@@ -1,23 +1,25 @@
 #!/usr/bin/env sh
 
-if [ -z "$AWS_REGION_OVERRIDE" ]
+if [ -z "$AWS_REGION" ]
 then
-    echo "AWS_REGION_OVERRIDE" must be set
+    echo "AWS_REGION" must be set
     exit 1
 fi
-if [ -z "$SMTPUSERNAME" ]
+if [ -z "$SMTP_USERNAME" ]
 then
     echo "SMTPUSERNAME" must be set
     exit 1
 fi
-if [ -z "$SMTPPASSWORD" ]
+if [ -z "$SMTP_PASSWORD" ]
 then
     echo "SMTPPASSWORD" must be set
     exit 1
 fi
 
+SMTP_HOST=email-smtp.${AWS_REGION}.amazonaws.com
+
 cat <<EOF > /etc/postfix/sasl_passwd
-[email-smtp.$region.amazonaws.com]:587 $SMTPUSERNAME:$SMTPPASSWORD
+[${SMTP_HOST}]:587 ${SMTP_USERNAME}:${SMTP_PASSWORD}
 EOF
 postmap hash:/etc/postfix/sasl_passwd
 chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
@@ -39,7 +41,7 @@ postmap /etc/postfix/helo_access || exit 1
 # using this as a sidecar, you should consider locking down your postfix
 # config even further here.
 postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' \
-"relayhost = [email-smtp.$region.amazonaws.com]:587" \
+"relayhost = [${SMTP_HOST}]:587" \
 "mynetworks = $MYNETWORKS" \
 "smtp_sasl_auth_enable = yes" \
 "smtp_sasl_security_options = noanonymous" \
