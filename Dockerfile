@@ -32,16 +32,13 @@ ENV MYNETWORKS=${MYNETWORKS}
 # curl and unzip: to unzip the cli package
 RUN apt-get update && \
 DEBIAN_FRONTEND=noninteractive apt-get -yq install \
-postfix libsasl2-modules rsyslog \
-curl unzip
+postfix libsasl2-modules rsyslog curl unzip && \
+rm -rf /var/lib/apt/lists/*
 
 ADD ./helo_access /root/helo_access
 
 # Disable kernel logging support in rsyslog
 RUN sed -i '/module(load="imklog")/d' /etc/rsyslog.conf
-
-# We need aws-cli to look up credentials
-RUN curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o /root/awscliv2.zip && cd /root && unzip awscliv2.zip && ./aws/install && rm /root/awscliv2.zip
 
 ADD ./startup.sh /usr/local/bin/startup.sh
 

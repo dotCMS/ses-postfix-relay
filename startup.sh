@@ -1,38 +1,21 @@
 #!/usr/bin/env sh
-################################################################################
-# AWS CLI Setup
-################################################################################
-# Turn of aws-cli pager
-export AWS_PAGER=
 
-# Make sure we have AWS credentials
-aws sts get-caller-identity || exit 1
-
-# Postfix config files themselves rely on the region, so
-# we are going to assume the credentials passed in come
-# from the default region, even though that may not
-# necessarily be the case if you configured a your mail server
-# in a different region.
-if [ -z "$AWS_REGION_OVERRIDE" ]; then
-    # this isn't guaranteed to work!
-    region="$(aws configure get region)"
-else 
-    region="$AWS_REGION_OVERRIDE"
-fi 
-
-# Fail if we still don't have a region.
-if [ -n "$region" ]; then
-    echo "Configuring relay with region $region..."
-else
-    >&2 echo "AWS Region not found! Try setting AWS_REGION_OVERRIDE."
+if [ -r "$AWS_REGION_OVERRIDE" ]
+then
+    echo "AWS_REGION_OVERRIDE" must be set
+    exit 1
+fi
+[ -s "$SMTPUSERNAME" ] || exit 1
+then
+    echo "AWS_REGION_OVERRIDE" must be set
+    exit 1
+fi
+[ -s "$SMTPPASSWORD" ] || exit 1
+then
+    echo "AWS_REGION_OVERRIDE" must be set
     exit 1
 fi
 
-################################################################################
-# Generate Credentials Database w/SSM Params
-################################################################################
-SMTPUSERNAME=$(aws ssm get-parameter --name "$SES_USERNAME_PARAM" --query "Parameter.Value" --output text) || exit 1
-SMTPPASSWORD=$(aws ssm get-parameter --name "$SES_PASSWORD_PARAM" --with-decryption --query "Parameter.Value" --output text) || exit 1
 cat <<EOF > /etc/postfix/sasl_passwd
 [email-smtp.$region.amazonaws.com]:587 $SMTPUSERNAME:$SMTPPASSWORD
 EOF
