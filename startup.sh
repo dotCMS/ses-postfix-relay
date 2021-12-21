@@ -7,12 +7,12 @@ then
 fi
 if [ -z "$SMTP_USERNAME" ]
 then
-    echo "SMTPUSERNAME" must be set
+    echo "SMTP_USERNAME" must be set
     exit 1
 fi
 if [ -z "$SMTP_PASSWORD" ]
 then
-    echo "SMTPPASSWORD" must be set
+    echo "SMTP_PASSWORD" must be set
     exit 1
 fi
 
