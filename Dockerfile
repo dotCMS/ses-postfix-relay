@@ -21,9 +21,6 @@ rm -rf /var/lib/apt/lists/*
 
 ADD ./helo_access /root/helo_access
 
-# Disable kernel logging support in rsyslog
-RUN sed -i '/module(load="imklog")/d' /etc/rsyslog.conf
-
 ADD ./startup.sh /usr/local/bin/startup.sh
 
 ENTRYPOINT ["tini", "--", "/usr/local/bin/startup.sh"]
