@@ -44,6 +44,7 @@ postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' \
 "relayhost = [${SMTP_HOST}]:587" \
 "mynetworks = $MYNETWORKS" \
 "maillog_file = /dev/stdout" \
+"inet_protocols = ipv4" \
 "smtp_sasl_auth_enable = yes" \
 "smtp_sasl_security_options = noanonymous" \
 "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" \
