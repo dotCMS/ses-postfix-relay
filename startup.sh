@@ -43,6 +43,7 @@ postmap /etc/postfix/helo_access || exit 1
 postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' \
 "relayhost = [${SMTP_HOST}]:587" \
 "mynetworks = $MYNETWORKS" \
+"maillog_file = /proc/1/fd/1" \
 "smtp_sasl_auth_enable = yes" \
 "smtp_sasl_security_options = noanonymous" \
 "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" \
@@ -52,14 +53,4 @@ postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' \
 "smtpd_helo_required = yes" \
 "smtpd_helo_restrictions = permit_mynetworks, check_helo_access hash:/etc/postfix/helo_access, permit" 
 
-################################################################################
-# Start As Services
-################################################################################
-# Postfix can be started without writing to syslog, but I haven't figured out
-# how to make that actually work, so here we are.
-service rsyslog start
-service postfix start
-
-# tail-f doesn't work with overlayfs, so use disable-inotify.
-# Yes, 3 dashes. 
-exec tail ---disable-inotify -f /var/log/syslog
+exec postfix start-fg
