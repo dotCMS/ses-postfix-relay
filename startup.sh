@@ -54,4 +54,6 @@ postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' \
 "smtpd_helo_required = yes" \
 "smtpd_helo_restrictions = permit_mynetworks, check_helo_access hash:/etc/postfix/helo_access, permit" 
 
+cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
+
 exec postfix start-fg
