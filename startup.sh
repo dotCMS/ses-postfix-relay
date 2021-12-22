@@ -43,7 +43,7 @@ postmap /etc/postfix/helo_access || exit 1
 postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' \
 "relayhost = [${SMTP_HOST}]:587" \
 "mynetworks = $MYNETWORKS" \
-"maillog_file = /proc/self/fd/1" \
+"maillog_file = /dev/stdout" \
 "smtp_sasl_auth_enable = yes" \
 "smtp_sasl_security_options = noanonymous" \
 "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" \
