@@ -10,7 +10,7 @@ FROM debian:bullseye-slim
 # address ranges. Your container orchestration system may assign
 # other network ranges, so be sure to override at Docker build
 # time or runtime.
-ARG MYNETWORKS="127.0.0.0/8 172.0.0.0/8 192.0.0.0/8"
+ARG MYNETWORKS="127.0.0.0/8 172.0.0.0/8 192.0.0.0/8 10.0.0.0/8"
 ENV MYNETWORKS=${MYNETWORKS}
 
 # libsasl2-modules: to connect to SES
