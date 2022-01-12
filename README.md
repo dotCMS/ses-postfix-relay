@@ -6,9 +6,11 @@ Set AWS SES credentials in Docker:
   smtp:
     image: ses-postfix-relay
     environment:
-      AWS_REGION: 'us-west-1'
-      SMTP_USERNAME: '[SES USER]'
-      SMTP_PASSWORD: '[SES PASSWORD]'
+      AWS_REGION: us-west-1
+      SMTP_USERNAME: [SES USER]
+      SMTP_PASSWORD: [SES PASSWORD]
+      # optionally, override MYNETWORKS
+      # MYNETWORKS: "127.0.0.0/8 172.0.0.0/8 192.0.0.0/8 10.0.0.0/8"
     networks:
       - smtp_net
 ```
