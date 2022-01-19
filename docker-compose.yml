@@ -1,0 +1,22 @@
+version: '3.5'
+
+networks:
+  smtp_net:
+
+services:
+  smtp:
+    image: ses-postfix-relay
+    environment:
+      AWS_REGION: us-west-1
+      SMTP_USERNAME: ********
+      SMTP_PASSWORD: ********
+      MYNETWORKS: "127.0.0.0/8 172.0.0.0/8 192.0.0.0/8 10.0.0.0/8"
+    ports:
+      - "25:25"
+    networks:
+      - smtp_net
+    restart: always
+    logging:
+      options:
+        max-file: "5"
+        max-size: "20m"
