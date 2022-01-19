@@ -1,6 +1,6 @@
 # SES Postfix Relay
 
-Set credentials in docker-compose.yml then
+Set credentials in `docker-compose.yml` then
 ```
 docker build . -t ses-postfix-relay 
 docker-compose up -d 
