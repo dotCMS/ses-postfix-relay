@@ -1,3 +1,7 @@
+For use with dotCMS 5.3.x.
+
+Newer dotCMS versions should use https://www.dotcms.com/docs/latest/mail-configuration
+
 # SES Postfix Relay
 
 Set credentials in `docker-compose.yml` then
@@ -13,6 +17,20 @@ In addition to `MYNETWORKS`, you will need to specify the hosts from
 which you accept `HELO` messages in [helo_access](./helo_access). You can use POSIX Regular Expressions (PCRE) here if you wish.
 
 See [access(5)](http://www.postfix.org/access.5.html) and [regex_table(5)](http://www.postfix.org/regexp_table.5.html) for details on the HOST NAME patterns allowed here.
+
+## "binary" dotCMS installs
+This is intended for inclusion in a docker-compose.yml file alongside a dotCMS container. 
+
+For binary install, change
+```
+    networks:
+      - smtp_net
+```
+to
+```
+    networking_mode: host
+```
+
 
 ## Testing
 
